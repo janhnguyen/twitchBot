@@ -25,11 +25,11 @@ def goodbye_message():
     sorted_word_count = sorted(word_count.items(), key=lambda item: item[1], reverse=True)
 
     print("-----------------------------------------------------------------------------------")
-    print("Word frequencies in decreasing order:")
-    for word, count in sorted_word_count:
+    print("Word Frequencies:")
+    for word, count in sorted_word_count[:20]:
         print(f"{word}: {count}")
 
-allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:?!" '
+allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:?!"@/&=-_*$%()^ '
 messages = {}
 word_count = {}
 counter = 1
@@ -43,6 +43,7 @@ while True :
 
         image = cv2.cvtColor(np.array(pyautogui.screenshot()), cv2.COLOR_RGB2BGR)
         image = image[365:1575, 2375:2880]
+        cv2.imwrite('image_temp.png', image)
 
         text = pytesseract.image_to_string(image)
         text = text.replace('\n', ' ')
@@ -59,14 +60,18 @@ while True :
         for i in range(1, len(split_text), 2):  # Iterate over usernames and messages
             username = split_text[i].strip()
             message = split_text[i + 1].strip()
+
+            if '  ' in message:
+                message = message.split('  ', 1)[0]
+
             try :
                 if message not in messages[username]:  # Check for duplicates
                     messages[username].append(message)
+                    print(f'{username} {message}')
             except :
                 messages[username] = [message]
 
         sleep(5)
-        print(f'{counter} Updating...')
         counter += 1
 
     except KeyboardInterrupt :
