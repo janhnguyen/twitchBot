@@ -26,13 +26,12 @@ def goodbye_message():
 
     print("-----------------------------------------------------------------------------------")
     print("Word Frequencies:")
-    for word, count in sorted_word_count[:20]:
+    for word, count in sorted_word_count[:50]:
         print(f"{word}: {count}")
 
 allowedChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789:?!"@/&=-_*$%()^ '
 messages = {}
 word_count = {}
-counter = 1
 
 # Register the function to run when the script exits
 atexit.register(goodbye_message)
@@ -72,7 +71,6 @@ while True :
                 messages[username] = [message]
 
         sleep(5)
-        counter += 1
 
     except KeyboardInterrupt :
         print('Stopping script...')
